@@ -1,8 +1,8 @@
-# f451 Labs SenseHat module v1.1.1
+# f451 Labs E-Paper module v0.0.0
 
 ## Overview
 
-The *f451 Labs SenseHat* module encapsulates the drivers for the [*Raspberry Pi Sense HAT*](https://www.raspberrypi.com/documentation/accessories/sense-hat.html) within a single class. This module also provides a standard set of methods to read sensor data and display content to the onboard 8x8 LED display.
+The *f451 Labs E-Paper* module encapsulates the drivers for the [*Waveshare 2.7" e-ink display*](https://www.waveshare.com/product/displays/e-paper/epaper-2/2.7inch-e-paper-hat.htm?___SID=U) within a single class. This module also provides a standard set of methods to read sensor data and display content to the onboard 264x176 e-ink display.
 
 ## Install
 
@@ -12,11 +12,11 @@ This module is not (yet) available on PyPi. however, you can still use `pip` to 
 
 This module is dependent on the following libraries:
 
-- [sense-hat](https://pypi.org/project/sense-hat/)
+- [Waveshare Python libraries](https://www.waveshare.com/wiki/2.7inch_e-Paper_HAT_Manual#Python)
 
-NOTE: Only install `sense-hat` library on a device that also has the physical Sense HAT installed.
+NOTE: Only install Waveshare libraries on a device that also has the physical Waveshare e-ink display installed.
 
-NOTE: You can run this app in demo mode in (almost) any device even without the Sense HAT. It will then create random numbers and can send output to the `logger` when log level is `DEBUG` or when `--debug` flag is used.
+NOTE: You can run this app in demo mode in (almost) any device even without the Waveshare e-ink display. It will then ?????????? and can send output to the `logger` when log level is `DEBUG` or when `--debug` flag is used.
 
 ### Installing from Github using `pip`
 
@@ -25,24 +25,24 @@ You can use `pip install` to install this module directly from Github as follows
 Using HTTPS:
 
 ```bash
-$ pip install 'f451-sensehat @ git+https://github.com/mlanser/f451-sensehat.git'
+$ pip install 'f451-epaper @ git+https://github.com/mlanser/f451-epaper.git'
 ```
 
 Using SSH:
 
 ```bash
-$ pip install 'f451-sensehat @ git+ssh://git@github.com:mlanser/f451-sensehat.git'
+$ pip install 'f451-epaper @ git+ssh://git@github.com:mlanser/f451-epaper.git'
 ```
 
-## How to use
+## TODO How to use
 
-### SenseHat Device
+### TODO Waveshare E-Ink Device
 
 The `SenseHat` object makes it easy to interact with the *Sense HAT* device. The methods of this object help read sensor data, display data to the 8x8 LED, etc., and using the module is straightforward. Simply `import` it into your code and instantiate an `SenseHat` object which you can then use throughout your code.
 
 ```Python
 # Import f451 Labs SenseHat
-from f451_sensehat.sensehat import SenseHat
+from f451_epaper.epaper import SenseHat
 
 # Initialize device instance which includes all sensors
 # and LED display on Sense HAT
@@ -58,27 +58,7 @@ print(f"PRESSURE: {round(mySense.get_pressure(), 1)} hPa")
 print(f"HUMIDITY: {round(mySense.get_humidity(), 1)} %")
 ```
 
-### SenseHat Data
-
-The *f451 Labs SenseHat* module also includes a `SenseData` object and a few other helper objects. These objects are designed to simplify storing and managing sensor data. The `SenseData` object implements so-called [double-ended queues ('deque')](https://docs.python.org/3/library/collections.html#deque-objects) which makes it easy to add and retrieve data. To use these objects in your code, simply `import` them into your code and instantiate an `SenseData` object.
-
-```Python
-# Import f451 Labs SenseHat Data
-from f451_sensehat.sensehat_data import SenseData
-
-maxLen = 10     # Max length of queue
-defVal = 1      # Default value for initialization
-
-myData = SenseData(defVal, maxlen)
-
-# Assuming we have instantiated the SenseHat object as 'mySense' we
-# can then read and store sensor data right into the data queues
-myData.temperature.data.append(mySense.get_temperature())
-myData.pressure.data.append(mySense.get_pressure())
-myData.humidity.data.append(mySense.get_humidity())
-```
-
-## How to test
+## TODOHow to test
 
 The tests are written for [pytest](https://docs.pytest.org/en/7.1.x/contents.html) and we use markers to separate out tests that require the actual Sense HAT hardware. Some tests do not rely on the hardware to be prexent. However, those tests rely on the `pytest-mock` module to be present.
 
