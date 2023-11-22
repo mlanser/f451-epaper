@@ -42,8 +42,8 @@ def main():
 
         # Drawing on the Horizontal image
         logging.info("1. Horizontal")
-        HBlackimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126
-        HRedimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126    
+        HBlackimage = Image.new('1', (epd.height, epd.width), 255)  # 264*176
+        HRedimage = Image.new('1', (epd.height, epd.width), 255)  # 264*176    
         drawblack = ImageDraw.Draw(HBlackimage)
         drawred = ImageDraw.Draw(HRedimage)
         drawblack.text((10, 0), 'hello world', font = font24, fill = 0)
@@ -62,8 +62,8 @@ def main():
     
         # Drawing on the Vertical image
         logging.info("2. Vertical")
-        LBlackimage = Image.new('1', (epd.width, epd.height), 255)  # 126*298
-        LRedimage = Image.new('1', (epd.width, epd.height), 255)  # 126*298
+        LBlackimage = Image.new('1', (epd.width, epd.height), 255)  # 176x264
+        LRedimage = Image.new('1', (epd.width, epd.height), 255)  # 176x264
         drawblack = ImageDraw.Draw(LBlackimage)
         drawred = ImageDraw.Draw(LRedimage)
         
