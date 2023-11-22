@@ -33,8 +33,8 @@ def main():
         
         # Drawing on the image
         logging.info("Drawing")
-        # blackimage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
-        # redimage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
+        blackimage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
+        redimage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
         
         font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
         font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
