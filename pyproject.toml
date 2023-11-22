@@ -34,7 +34,7 @@ dev = [
 Homepage = "https://github.com/mlanser/f451-epaper"
 
 [project.scripts]
-f451_sensehat = "f451_epaper.__main__:main"
+f451_epaper = "f451_epaper.__main__:main"
 
 [tool.bumpver]
 current_version = "0.0.0"

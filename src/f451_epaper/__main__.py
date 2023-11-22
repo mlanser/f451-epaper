@@ -1,50 +1,112 @@
 """Demo for using f451 Labs E-Paper Module."""
 
+import sys
+import os
 import time
-from f451_epaper.wave_epd27b import EPD27b
+from PIL import Image,ImageDraw,ImageFont
+import logging
+import traceback
+
+from f451_epaper.waveshare import epd2in7b
+
+picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'waveshare')
+# libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+# if os.path.exists(libdir):
+#     sys.path.append(libdir)
 
 
 # =========================================================
 #                    D E M O   A P P
 # =========================================================
 def main():
-    # Initialize device instance which includes all sensors
-    # and LED display on Sense HAT
-    epd27b = EPD27b({
-        "ROTATION": 0,
-        "DISPLAY": 0,
-        "PROGRESS": 0,
-        "SLEEP": 600    
-    })
+    logging.basicConfig(level=logging.DEBUG)
 
-    # Skip display demos if we're using fake HAT
-    if not epd27b.is_fake():
-        epd27b.display_init()
+    try:
+        logging.info("epd2in7b Demo")
+        logging.info(picdir)
+        
+        epd = epd2in7b.EPD()
+        logging.info("init and Clear")
+        epd.init()
+        epd.Clear()
+        time.sleep(1)
+        
+        # Drawing on the image
+        logging.info("Drawing")
+        # blackimage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
+        # redimage = Image.new('1', (epd.width, epd.height), 255)  # 255: clear the frame
+        
+        font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+        font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
+        
 
-        # Display text on 8x8 LED
-        epd27b.display_message("Hello world!")
-
-        for _ in range(100):
-            epd27b.display_sparkle()
-            time.sleep(0.2)
-
-        epd27b.display_blank()
-        epd27b.display_off()
-
-    else:
-        print("\nSkipping LED demo since we don't have a real Sense HAT")
-
-    # Get enviro data, even if it's fake
-    tempRaw = round(epd27b.get_temperature(), 1)
-    pressRaw = round(epd27b.get_pressure(), 1)
-    humidRaw = round(epd27b.get_humidity(), 1)
-
-    print("\n===== [Demo of f451 Labs Enviro+ Module] ======")
-    print(f"TEMP:     {tempRaw} C")
-    print(f"PRESSURE: {pressRaw} hPa")
-    print(f"HUMIDITY: {humidRaw} %")
-    # print("Beep boop!")
-    print("=============== [End of Demo] =================\n")
+        # Drawing on the Horizontal image
+        logging.info("1. Horizontal")
+        HBlackimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126
+        HRedimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126    
+        drawblack = ImageDraw.Draw(HBlackimage)
+        drawred = ImageDraw.Draw(HRedimage)
+        drawblack.text((10, 0), 'hello world', font = font24, fill = 0)
+        drawblack.text((10, 20), 'f451-epaper - 2.7inch e-Paper', font = font24, fill = 0)
+        drawblack.text((150, 0), u'微雪电子', font = font24, fill = 0)    
+        drawblack.line((20, 50, 70, 100), fill = 0)
+        drawblack.line((70, 50, 20, 100), fill = 0)
+        drawblack.rectangle((20, 50, 70, 100), outline = 0)    
+        drawred.line((165, 50, 165, 100), fill = 0)
+        drawred.line((140, 75, 190, 75), fill = 0)
+        drawred.arc((140, 50, 190, 100), 0, 360, fill = 0)
+        drawred.rectangle((80, 50, 130, 100), fill = 0)
+        drawred.chord((200, 50, 250, 100), 0, 360, fill = 0)
+        epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRedimage))
+        time.sleep(20)
+    
+        # Drawing on the Vertical image
+        logging.info("2. Vertical")
+        LBlackimage = Image.new('1', (epd.width, epd.height), 255)  # 126*298
+        LRedimage = Image.new('1', (epd.width, epd.height), 255)  # 126*298
+        drawblack = ImageDraw.Draw(LBlackimage)
+        drawred = ImageDraw.Draw(LRedimage)
+        
+        drawblack.text((2, 0), 'hello world', font = font18, fill = 0)
+        drawblack.text((2, 20), '2.9inch epd', font = font18, fill = 0)
+        drawblack.text((20, 50), u'微雪电子', font = font18, fill = 0)
+        drawblack.line((10, 90, 60, 140), fill = 0)
+        drawblack.line((60, 90, 10, 140), fill = 0)
+        drawblack.rectangle((10, 90, 60, 140), outline = 0)
+        drawred.line((95, 90, 95, 140), fill = 0)
+        drawred.line((70, 115, 120, 115), fill = 0)
+        drawred.arc((70, 90, 120, 140), 0, 360, fill = 0)
+        drawred.rectangle((10, 150, 60, 200), fill = 0)
+        drawred.chord((70, 150, 120, 200), 0, 360, fill = 0)
+        epd.display(epd.getbuffer(LBlackimage), epd.getbuffer(LRedimage))
+        time.sleep(2)
+        
+        logging.info("3. Display BMP")
+        HBlackimage = Image.open(os.path.join(picdir, '2in7b-b.bmp'))
+        HRedimage = Image.open(os.path.join(picdir, '2in7b-r.bmp'))
+        epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRedimage))
+        time.sleep(2)
+        
+        logging.info("4. Display BMP file on window")
+        blackimage1 = Image.new('1', (epd.height, epd.width), 255)  # 298*126
+        redimage1 = Image.new('1', (epd.height, epd.width), 255)  # 298*126    
+        newimage = Image.open(os.path.join(picdir, '100x100.bmp'))
+        blackimage1.paste(newimage, (50,10))    
+        epd.display(epd.getbuffer(blackimage1), epd.getbuffer(redimage1))
+        
+        logging.info("Clear...")
+        epd.init()
+        epd.Clear()
+        
+        logging.info("Goto Sleep...")
+        epd.sleep()
+            
+    except IOError as e:
+        logging.info(e)
+        
+    except KeyboardInterrupt:    
+        logging.info("ctrl + c:")
+        epd2in7b.epdconfig.module_exit()
 
 
 if __name__ == "__main__":
