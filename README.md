@@ -6,7 +6,7 @@ The *f451 Labs E-Paper* module encapsulates the drivers for the [*Waveshare 2.7"
 
 ## Install
 
-This module is not (yet) available on PyPi. however, you can still use `pip` to install the module directly from Github (see below).
+This module is not (yet) available on PyPi. However, you can still use `pip` to install the module directly from GitHub (see below).
 
 ### Dependencies
 
@@ -16,11 +16,13 @@ This module is dependent on the following libraries:
 
 NOTE: Only install Waveshare libraries on a device that also has the physical Waveshare e-ink display installed.
 
-NOTE: You can run this app in demo mode in (almost) any device even without the Waveshare e-ink display. It will then ?????????? and can send output to the `logger` when log level is `DEBUG` or when `--debug` flag is used.
+NOTE: You can run this app in demo mode on (almost) any device even without the Waveshare e-ink display. It will then save the generated images to JPG files instead of displaying them.
 
-### Installing from Github using `pip`
+NOTE: When log level is `DEBUG` or when `--debug` flag is used, the output will be saved as JPGs even when the e-ink display is present.
 
-You can use `pip install` to install this module directly from Github as follows:
+### Installing from GitHub using `pip`
+
+You can use `pip install` to install this module directly from GitHub as follows:
 
 Using HTTPS:
 
@@ -38,7 +40,7 @@ $ pip install 'f451-epaper @ git+ssh://git@github.com:mlanser/f451-epaper.git'
 
 ### TODO Waveshare E-Ink Device
 
-The `SenseHat` object makes it easy to interact with the *Sense HAT* device. The methods of this object help read sensor data, display data to the 8x8 LED, etc., and using the module is straightforward. Simply `import` it into your code and instantiate an `SenseHat` object which you can then use throughout your code.
+The `SenseHat` object makes it easy to interact with the Sense HAT device. The methods of this object help read sensor data, display data to the 8x8 LED, etc., and using the module is straightforward. Simply `import` it into your code and instantiate an `SenseHat` object which you can then use throughout your code.
 
 ```Python
 # Import f451 Labs SenseHat
@@ -60,7 +62,7 @@ print(f"HUMIDITY: {round(mySense.get_humidity(), 1)} %")
 
 ## TODOHow to test
 
-The tests are written for [pytest](https://docs.pytest.org/en/7.1.x/contents.html) and we use markers to separate out tests that require the actual Sense HAT hardware. Some tests do not rely on the hardware to be prexent. However, those tests rely on the `pytest-mock` module to be present.
+The tests are written for [pytest](https://docs.pytest.org/en/7.1.x/contents.html) and we use markers to separate out tests that require the actual Sense HAT hardware. Some tests do not rely on the hardware to be present. However, those tests rely on the `pytest-mock` module to be present.
 
 ```bash
 
